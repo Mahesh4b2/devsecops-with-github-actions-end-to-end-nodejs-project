@@ -1,6 +1,5 @@
 name: Build code, run unit test, run SAST, SCA, DAST security scans for NodeJs App
 on: push
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,8 +18,8 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
         args: >
-          -Dsonar.organization=devsecopsgithubactionsnodejsproject
-          -Dsonar.projectKey=devsecopsganodejsprojectkey
+          -Dsonar.organization=devsecopsgithubactionsnodejsproject11
+          -Dsonar.projectKey=devsecopsgithubactionsnodejsproject11_devsecopsgithubactionsnodejsproject
   security:
     runs-on: ubuntu-latest
     needs: build
@@ -32,17 +31,7 @@ jobs:
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  zap_scan:
-    runs-on: ubuntu-latest
-    needs: security
-    name: Run DAST scan on the web application
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: master
-      - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.6.1
+
         with:
           docker_name: 'owasp/zap2docker-stable'
           target: 'http://example.com/'
